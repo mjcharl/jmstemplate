@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="57782966-c9fb-4fa3-9692-a500230f7a3a" activeEnvironment="Default" name="Test" soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="Environment" value="Default"/>
+  <con:entry key="Global Properties" value=""/>
+  <con:entry key="TestSuite" value="TestSuite 1"/>
+  <con:entry key="Password" value=""/>
+  <con:entry key="TestRunner Path" value=""/>
+  <con:entry key="Tool Args" value=""/>
+  <con:entry key="Ignore Errors" value="false"/>
+  <con:entry key="Host:Port" value=""/>
+  <con:entry key="user-settings.xml Password" value=""/>
+  <con:entry key="WSS Password Type" value=""/>
+  <con:entry key="Save Project" value="false"/>
+  <con:entry key="Enable UI" value="false"/>
+  <con:entry key="System Properties" value=""/>
+  <con:entry key="Domain" value=""/>
+  <con:entry key="Coverage Report" value="false"/>
+  <con:entry key="Export JUnit Results" value="false"/>
+  <con:entry key="Export JUnit Results with test properties" value="false"/>
+  <con:entry key="Open Report" value="false"/>
+  <con:entry key="Project Properties" value=""/>
+  <con:entry key="Export All" value="false"/>
+  <con:entry key="Project Password" value=""/>
+  <con:entry key="Report Format(s)" value=""/>
+  <con:entry key="TestCase" value="TestCase 1"/>
+  <con:entry key="Print Report" value="false"/>
+  <con:entry key="Username" value=""/>
+  <con:entry key="Root Folder" value=""/>
+  <con:entry key="Select Report Type" value=""/>
+  <con:entry key="Save After" value="false"/>
+  <con:entry key="Add Settings" value="false"/>
+  <con:entry key="Endpoint" value=""/>
+</xml-fragment>]]></con:setting></con:settings><con:interface xsi:type="con:WsdlInterface" id="6705170a-098d-4778-aa24-c8f8895e94c8" wsaVersion="NONE" name="OrderEndpointServiceSoapBinding" type="wsdl" bindingName="{http://order.camelinaction}OrderEndpointServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/jmstemplate/services/order/?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/jmstemplate/services/order/?wsdl"><con:part><con:url>http://localhost:8080/jmstemplate/services/order/?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="OrderEndpointService" targetNamespace="http://order.camelinaction" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://order.camelinaction" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema targetNamespace="http://order.camelinaction" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="amount" type="xs:int"/>
+      <xs:element name="customerName" type="xs:string"/>
+      <xs:element name="partName" type="xs:string"/>
+      <xs:element name="resultCode" type="xs:string"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="orderResponse">
+    <wsdl:part element="tns:resultCode" name="resultCode"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="order">
+    <wsdl:part element="tns:partName" name="partName"></wsdl:part>
+    <wsdl:part element="tns:amount" name="amount"></wsdl:part>
+    <wsdl:part element="tns:customerName" name="customerName"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OrderEndpoint">
+    <wsdl:operation name="order">
+      <wsdl:input message="tns:order" name="order"></wsdl:input>
+      <wsdl:output message="tns:orderResponse" name="orderResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrderEndpointServiceSoapBinding" type="tns:OrderEndpoint">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="order">
+      <soap:operation soapAction="http://order.camelinaction/Order" style="document"/>
+      <wsdl:input name="order">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="orderResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrderEndpointService">
+    <wsdl:port binding="tns:OrderEndpointServiceSoapBinding" name="OrderEndpointPort">
+      <soap:address location="http://localhost:8080/jmstemplate/services/order/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/jmstemplate/services/order/</con:endpoint></con:endpoints><con:operation id="aa0925bd-fd61-4db3-9537-20597a66f287" isOneWay="false" action="http://order.camelinaction/Order" name="order" bindingOperationName="order" type="Request-Response" outputName="orderResponse" inputName="order" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="89de1b5a-3f60-40e6-b79c-f7cc43e70828" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/jmstemplate/services/order/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ord="http://order.camelinaction">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ord:partName>OS Map</ord:partName>
+      <ord:amount>2</ord:amount>
+      <ord:customerName>Mike</ord:customerName>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>admin</con:username><con:password>password</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://order.camelinaction/Order"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

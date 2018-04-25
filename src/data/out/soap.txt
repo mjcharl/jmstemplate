@@ -1,0 +1,8 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ord="http://order.camelinaction">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ord:partName>OS Map</ord:partName>
+      <ord:amount>2</ord:amount>
+      <ord:customerName>Mike</ord:customerName>
+   </soapenv:Body>
+</soapenv:Envelope>

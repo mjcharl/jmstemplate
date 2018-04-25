@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://camel.apache.org/schema/spring 
+		http://camel.apache.org/schema/spring/camel-spring.xsd ">
+
+	<import resource="camel-cxf-tomcat.xml" />
+
+	<bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+
+				<!-- Use this if MQ is running externally -->
+				<property name="brokerURL" value="tcp://localhost:61616" />
+
+				<!-- Use this if MQ isn't running externally -->
+				<!-- <property name="brokerURL" value="vm://localhost" /> -->
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="fileNameLogger" class="net.martincharlesworth.data.camel.FileNameLogger" />
+	<bean id="workflowDbManager" class="net.martincharlesworth.data.camel.WorkflowDbManager"/>
+
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<route>
+			<from
+				uri="file:/Users/martin/eclipse_workspace/jmstemplate/src/data/in?noop=true" />
+			<process ref="fileNameLogger" />
+			<to uri="jms:incomingOrders" />
+		</route>
+		<route>
+			<from uri="jms:incomingOrders" />
+			<to uri="file:/Users/martin/eclipse_workspace/jmstemplate/src/data/out" />
+		</route>
+		<!-- This is a SOAP endpoint that receives a message and logs it to a file -->
+		<route>
+			<from uri="cxf:bean:orderEndpoint?dataFormat=MESSAGE" />
+			<process ref="workflowDbManager" />
+			<to uri="jms:incomingOrders" />
+			<to uri="log:input"/>
+			<!-- and then create the OK reply for the webservice which is still waiting 
+				for a reply -->
+			<transform>
+				<constant>OK</constant>
+			</transform>
+		</route>
+	</camelContext>
+</beans>

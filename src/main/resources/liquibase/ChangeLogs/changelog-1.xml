@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+	<changeSet id="R2-1" author="Martin Charlesworth">
+		<createTable tableName="users">
+			<column name="id" type="number">
+				<constraints nullable="false" />
+			</column>
+			<column name="forename" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="surname" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="username" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="password" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="enabled" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="number">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey columnNames="id" constraintName="users_pk"
+			tableName="users" />
+
+		<createSequence sequenceName="orders_seq" cycle="false"
+			incrementBy="1" maxValue="99999999" minValue="1" ordered="false"
+			startValue="1" />
+
+		<createTable tableName="orders">
+			<column name="id" type="number">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_id" type="number">
+				<constraints nullable="false" />
+			</column>
+			<column name="order_number" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="date" type="date">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="number">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey columnNames="id" constraintName="orders_pk"
+			tableName="orders" />
+
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="orders" constraintName="fk_orders_person" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="users" />
+
+		<createSequence sequenceName="users_seq" cycle="false"
+			incrementBy="1" maxValue="99999999" minValue="1" ordered="false"
+			startValue="1" />
+
+		<createTable tableName="items">
+			<column name="id" type="number">
+				<constraints nullable="false" />
+			</column>
+			<column name="order_id" type="number">
+				<constraints nullable="false" />
+			</column>
+			<column name="item_name" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="price" type="number(11,2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="quantity" type="number(5)">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="number">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey columnNames="id" constraintName="items_pk"
+			tableName="items" />
+
+		<addForeignKeyConstraint baseColumnNames="order_id"
+			baseTableName="items" constraintName="fk_items_orders" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="orders" />
+
+		<createSequence sequenceName="items_seq" cycle="false"
+			incrementBy="1" maxValue="99999999" minValue="1" ordered="false"
+			startValue="1" />
+
+		<createTable tableName="roles">
+			<column name="id" type="number">
+				<constraints nullable="false" />
+			</column>
+			<column name="role_name" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<addPrimaryKey columnNames="id" constraintName="roles_pk"
+			tableName="roles" />
+			
+		<createSequence sequenceName="roles_seq" cycle="false"
+			incrementBy="1" maxValue="99999999" minValue="1" ordered="false"
+			startValue="1" />
+			
+		<createTable tableName="users_roles">
+			<column name="user_id" type="number">
+				<constraints nullable="false" />
+			</column>
+			<column name="role_id" type="number">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="users_roles" constraintName="fk_users_roles_user" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="users" />
+			
+		<addForeignKeyConstraint baseColumnNames="role_id"
+			baseTableName="users_roles" constraintName="fk_users_roles_role" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="roles" />
+			
+	    <!--  
+	    <insert  tableName="users">
+			<column name="id" value="">
+			<column name="forename" value="">
+			<column name="surname" value="">
+			<column name="username" value="">
+			<column name="password" value="">
+			<column name="enabled" value="">
+			<column name="version" value="">
+        </insert>
+        -->
+        
+        <sql>INSERT INTO USERS (ID, FORENAME, SURNAME, USERNAME, PASSWORD, VERSION, ENABLED) VALUES (1, 'Admin', 'Admin', 'admin', 'password', 0, 'y')</sql>
+        <sql>INSERT INTO USERS (ID, FORENAME, SURNAME, USERNAME, PASSWORD, VERSION, ENABLED) VALUES (2, 'Joe', 'Blogs', 'jbloggs', 'password', 0, 'y')</sql>
+        
+        <sql>INSERT INTO ROLES (ID, ROLE_NAME) VALUES (1, 'ROLE_ADMIN')</sql>
+        <sql>INSERT INTO ROLES (ID, ROLE_NAME) VALUES (2, 'ROLE_USER')</sql>
+        
+        <sql>INSERT INTO USERS_ROLES (USER_ID, ROLE_ID) VALUES (1, 1)</sql>
+        <sql>INSERT INTO USERS_ROLES (USER_ID, ROLE_ID) VALUES (1, 2)</sql>
+        <sql>INSERT INTO USERS_ROLES (USER_ID, ROLE_ID) VALUES (2, 2)</sql>
+        
+        <sql>INSERT INTO orders(id, user_id, order_number, date, version) VALUES (1, 1, 10, '2015-03-15', 0)</sql>
+		<sql>INSERT INTO orders(id, user_id, order_number, date, version) VALUES (2, 1, 11, '2015-04-24', 0)</sql>
+		<sql>INSERT INTO orders(id, user_id, order_number, date, version) VALUES (3, 2, 12, '2015-05-15', 0)</sql>
+		<sql>INSERT INTO orders(id, user_id, order_number, date, version) VALUES (4, 2, 13, '2015-06-15', 0)</sql>
+		
+		<sql>INSERT INTO items(id, order_id, item_name, price, quantity, version) VALUES (1, 1, 'Skateboard', 9.99, 3, 0)</sql>
+		<sql>INSERT INTO items(id, order_id, item_name, price, quantity, version) VALUES (2, 1, 'Bike', 6.99, 2, 0)</sql>
+		<sql>INSERT INTO items(id, order_id, item_name, price, quantity, version) VALUES (3, 1, 'iPod', 109.98, 1, 0)</sql>
+		<sql>INSERT INTO items(id, order_id, item_name, price, quantity, version) VALUES (4, 2, 'CD', 19.99, 5, 0)</sql>
+		<sql>INSERT INTO items(id, order_id, item_name, price, quantity, version) VALUES (5, 2, 'Book', 8.99, 6, 0)</sql>
+		<sql>INSERT INTO items(id, order_id, item_name, price, quantity, version) VALUES (6, 3, 'Phone', 39.99, 7, 0)</sql>
+		<sql>INSERT INTO items(id, order_id, item_name, price, quantity, version) VALUES (7, 3, 'Laptop', 10.99, 2, 0)</sql>
+		<sql>INSERT INTO items(id, order_id, item_name, price, quantity, version) VALUES (8, 4, 'Pen', 39.98, 3, 0)</sql>
+
+	</changeSet>
+</databaseChangeLog>
